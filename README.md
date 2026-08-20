@@ -61,8 +61,8 @@ The mock data has 20 flights spread across 8 Indian domestic routes — Delhi, M
 **Folder structure is feature-first, and there's a reason for the `data-access` name specifically** — it's meant to signal "the stuff this app talks to and models," not just "misc backend-y things":
 ```
 data-access/
-  interface/     → static reference data (the airport list)
-  models/        → domain interfaces (Flight, SearchCriteria, etc.)
+  interface/     → domain interfaces (Flight, SearchCriteria, etc.)
+  models/        → static reference data (the airport list)
   services/      → flightService (HTTP), search-flight-service (search/filter orchestration + persisted state)
 features/
   components/    → search-form, flight-list, filters-panel
