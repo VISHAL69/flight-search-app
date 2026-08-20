@@ -1,0 +1,43 @@
+@if (flights.length > 0) {
+<div>
+    @for (flight of flights; track flight.id) {
+    <p-card styleClass="mb-3 shadow-1">
+        <div class="grid align-items-center">
+            <div class="col-12 md:col-3">
+                <div class="font-semibold">{{ flight.airline }}</div>
+                <div class="text-color-secondary text-sm">{{ flight.flightNumber }}</div>
+            </div>
+
+            <div class="col-6 md:col-2">
+                <div class="font-semibold">{{ flight.departureTime | date:'shortTime' }}</div>
+                <div class="text-color-secondary text-sm">{{ flight.from }}</div>
+            </div>
+
+            <div class="col-12 md:col-2 text-center">
+                <div class="text-color-secondary text-sm">{{ flight.durationMinutes | flightDuration }}</div>
+                <p-tag [value]="stopsLabel(flight.stops)" [severity]="flight.stops | stopsSeverity" />
+            </div>
+
+            <div class="col-6 md:col-2">
+                <div class="font-semibold">{{ flight.arrivalTime | date:'hh : mm a' }}</div>
+                <div class="text-color-secondary text-sm">{{ flight.to }}</div>
+            </div>
+
+            <div class="col-6 md:col-2">
+                <div class="text-xl font-bold text-primary">₹{{ flight.price | number }}</div>
+            </div>
+
+            <div class="col-6 md:col-1 text-right">
+                <p-button label="Details" size="small" [outlined]="true" (onClick)="viewDetails.emit(flight.id)" />
+            </div>
+        </div>
+    </p-card>
+    }
+</div>
+} @else {
+<div class="text-center text-color-secondary py-6">
+    <i class="pi pi-send text-3xl mb-2 block"></i>
+    <div>'No flights found. Try adjusting your search or filters.'</div>
+</div>
+
+}

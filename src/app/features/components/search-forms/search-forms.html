@@ -1,0 +1,141 @@
+<div class="surface-card border-round shadow-1 p-4 mb-4">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="grid formgrid">
+      <div class="col-12 md:col-3 field">
+        <label for="from" class="block font-semibold mb-2">From</label>
+        <p-select
+          inputId="from"
+          [options]="cityOptions"
+          formControlName="from"
+          optionLabel="name"
+          optionValue="iataCode"
+          [filter]="true"
+          filterBy="city,iataCode,name"
+          placeholder="Select origin city"
+          [showClear]="true"
+          [fluid]="true"
+          [class.ng-invalid]="form.get('from')?.invalid && form.get('from')?.touched"
+          [class.ng-dirty]="form.get('from')?.invalid && form.get('from')?.touched"
+        >
+          <ng-template #selectedItem let-airport>
+            <div class="flex items-center gap-2">
+              <span>{{ airport.iataCode }}</span> -
+              <span>{{ airport.name }}</span>
+            </div>
+          </ng-template>
+          <ng-template let-airport #item>
+            <div class="flex items-center gap-2">
+              <span>{{ airport.iataCode }}</span> -
+              <span>{{ airport.name }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+        @if (form.get('from')?.invalid && form.get('from')?.touched) {
+          <p-message severity="error" variant="simple" size="small" styleClass="mt-1">
+            Origin city is required.
+          </p-message>
+        }
+      </div>
+
+      <div class="col-12 md:col-3 field">
+        <label for="to" class="block font-semibold mb-2">To</label>
+        <p-select
+          inputId="to"
+          formControlName="to"
+          [options]="cityOptions"
+          optionLabel="name"
+          optionValue="iataCode"
+          [filter]="true"
+          filterBy="city,iataCode,name"
+          x
+          placeholder="Select destination city"
+          [showClear]="true"
+          [fluid]="true"
+          [class.ng-invalid]="form.get('to')?.invalid && form.get('to')?.touched"
+          [class.ng-dirty]="form.get('to')?.invalid && form.get('to')?.touched"
+        >
+          <ng-template #selectedItem let-airport>
+            <div class="flex items-center gap-2">
+              <span>{{ airport.iataCode }}</span> -
+              <span>{{ airport.name }}</span>
+            </div>
+          </ng-template>
+          <ng-template let-airport #item>
+            <div class="flex items-center gap-2">
+              <span>{{ airport.iataCode }}</span> -
+              <span>{{ airport.name }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+        @if (form.get('to')?.invalid && form.get('to')?.touched) {
+          <p-message severity="error" variant="simple" size="small" styleClass="mt-1">
+            Destination city is required.
+          </p-message>
+        }
+      </div>
+
+      <div class="col-12 md:col-3 field">
+        <label for="departureDate" class="block font-semibold mb-2">Departure Date</label>
+        <p-datepicker
+          inputId="departureDate"
+          formControlName="departureDate"
+          dateFormat="dd M yy"
+          [showIcon]="true"
+          [fluid]="true"
+          [class.ng-invalid]="
+            form.get('departureDate')?.invalid && form.get('departureDate')?.touched
+          "
+          [class.ng-dirty]="
+            form.get('departureDate')?.invalid && form.get('departureDate')?.touched
+          "
+        />
+        @if (form.get('departureDate')?.invalid && form.get('departureDate')?.touched) {
+          <p-message severity="error" variant="simple" size="small" styleClass="mt-1">
+            Departure date is required.
+          </p-message>
+        }
+      </div>
+
+      <div class="col-12 md:col-3 field">
+        <label for="returnDate" class="block font-semibold mb-2">Return Date</label>
+        <p-datepicker
+          inputId="returnDate"
+          formControlName="returnDate"
+          dateFormat="dd M yy"
+          [showIcon]="true"
+          [fluid]="true"
+        />
+      </div>
+      <div class="col-12 md:col-3 field">
+        <label for="passengers" class="block font-semibold mb-2">Passengers</label>
+        <p-inputnumber
+          inputId="passengers"
+          formControlName="passengers"
+          [min]="1"
+          [max]="9"
+          [showButtons]="true"
+          [fluid]="true"
+        />
+        @if (form.get('passengers')?.invalid && form.get('passengers')?.touched) {
+          <p-message severity="error" variant="simple" size="small" styleClass="mt-1">
+            Enter between 1 and 9 passengers.
+          </p-message>
+        }
+      </div>
+      <div class="col-12 md:col-12 field">
+        @if (form.hasError('sameAirport') && form.touched) {
+          <p-message severity="warn" styleClass="w-full mb-2">
+            Origin and destination cannot be the same.
+          </p-message>
+        }
+        @if (form.hasError('returnBeforeDeparture') && form.touched) {
+          <p-message severity="warn" styleClass="w-full mb-2">
+            Return date cannot be before the departure date.
+          </p-message>
+        }
+      </div>
+    </div>
+
+    <p-button type="submit" label="Search Flights" [disabled]="form.invalid" />
+  </form>
+</div>
